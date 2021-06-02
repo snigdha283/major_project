@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
-UPLOAD_FOLDER = './COVID-19 DETECTOR/assets/images'
+UPLOAD_FOLDER = './major_project/assets/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # Create Database if it doesnt exist
 
 app = Flask(__name__,static_url_path='/assets',
-            static_folder='./COVID-19 DETECTOR/assets', 
-            template_folder='./COVID-19 DETECTOR')
+            static_folder='./major_project/assets', 
+            template_folder='./major_project')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -60,7 +60,7 @@ def uploaded_ct():
    vgg_ct = load_model('models/vgg_ct.h5')
   
 
-   image = cv2.imread('./COVID-19 DETECTOR/assets/images/upload_ct.jpg') # read file 
+   image = cv2.imread('./major_project/assets/images/upload_ct.jpg') # read file 
    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
    image = cv2.resize(image,(224,224))
    image = np.array(image) / 255
