@@ -57,7 +57,7 @@ def uploaded_ct():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'upload_ct.jpg'))
 
    
-   vgg_ct = load_model('models/vgg_ct.h5')
+   vgg_ct = load_model('./major_project/vgg_ct.h5')
   
 
    image = cv2.imread('./major_project/assets/images/upload_ct.jpg') # read file 
