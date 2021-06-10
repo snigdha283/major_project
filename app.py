@@ -10,8 +10,7 @@ UPLOAD_FOLDER = 'major_project/static/assets/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # Create Database if it doesnt exist
 
-app = Flask(__name__, 
-            template_folder='major_project/templates')
+app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -38,7 +37,7 @@ def upload_ct():
    return render_template('upload_ct.html')
 
 
-@app.route('/uploaded_ct', methods = ['POST', 'GET'])
+@app.route('/uploaded_ct/', methods = ['POST', 'GET'])
 def uploaded_ct():
    if request.method == 'POST':
         # check if the post request has the file part
