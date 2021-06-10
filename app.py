@@ -10,9 +10,8 @@ UPLOAD_FOLDER = './major_project/assets/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # Create Database if it doesnt exist
 
-app = Flask(__name__,static_url_path='/assets',
-            static_folder='./major_project/assets', 
-            template_folder='./major_project')
+app = Flask(__name__, 
+            template_folder='template')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
