@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
-UPLOAD_FOLDER = './major_project/assets/images'
+UPLOAD_FOLDER = 'major_project/static/assets/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # Create Database if it doesnt exist
 
@@ -56,10 +56,10 @@ def uploaded_ct():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'upload_ct.jpg'))
 
    
-   vgg_ct = load_model('./major_project/vgg_ct.h5')
+   vgg_ct = load_model('major_project/vgg_ct.h5')
   
 
-   image = cv2.imread('./major_project/assets/images/upload_ct.jpg') # read file 
+   image = cv2.imread('major_project/static/assets/images/upload_ct.jpg') # read file 
    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
    image = cv2.resize(image,(224,224))
    image = np.array(image) / 255
