@@ -11,7 +11,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # Create Database if it doesnt exist
 
 app = Flask(__name__, 
-            template_folder='major_project/Templates')
+            template_folder='major_project/templates')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -19,21 +19,21 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def root():
    return render_template('index.html')
 
-@app.route('/index.html')
+@app.route('/index.html/')
 def index():
    return render_template('index.html')
 
-@app.route('/about.html')
+@app.route('/about.html/')
 def about():
    return render_template('about.html')
 
 
-@app.route('/upload.html')
+@app.route('/upload.html/')
 def upload():
    return render_template('upload.html')
 
 
-@app.route('/upload_ct.html')
+@app.route('/upload_ct.html/')
 def upload_ct():
    return render_template('upload_ct.html')
 
