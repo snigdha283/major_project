@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 from tensorflow.keras.models import load_model
-from keras.applications.vgg16 import preprocess_input
-from keras.preprocessing.image import ImageDataGenerator
-from keras_preprocessing.image import img_to_array, load_img
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from flask import Flask
 from flask import render_template, request, redirect, flash, url_for
 import os
