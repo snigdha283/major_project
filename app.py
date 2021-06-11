@@ -13,7 +13,7 @@ import os
 
 def predict(image):
     vgg_ct = load_model('Models/vgg_ct.h5')
-    image=cv2.imread(image)
+    
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
     image = cv2.resize(image,(224,224))
     image = np.array(image) / 255
@@ -45,7 +45,7 @@ def upload_image():
             if(jpg==-1 and jpeg==-1 and png==-1):
                 flash('Image format should be "png", "jpg" or "jpeg"')
                 return redirect(url_for('home_endpoint'))
-            answer = predict(image)
+            answer = predict(filename)
             print("Image saved")
             if(answer==0):
                 return render_template("0.html")
