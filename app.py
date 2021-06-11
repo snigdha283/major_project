@@ -13,7 +13,8 @@ import os
 
 def predict(image):
     vgg_ct = load_model('Models/vgg_ct.h5')
-    image = cv2.cvtColor(cv2.UMat(image), cv2.COLOR_BGR2RGB) # arrange format as per keras
+    image=cv2.imread(image)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
     image = cv2.resize(image,(224,224))
     image = np.array(image) / 255
     image = np.expand_dims(image, axis=0)
