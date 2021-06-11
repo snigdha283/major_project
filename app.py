@@ -1,41 +1,26 @@
 import numpy as np
-from cv2 import GaussianBlur
-from keras.models import load_model
+import cv2
+from tensorflow.keras.models import load_model
 from keras.applications.vgg16 import preprocess_input
 from keras.preprocessing.image import ImageDataGenerator
 from keras_preprocessing.image import img_to_array, load_img
-import pickle as pk
-from joblib import dump, load
-import datetime
 from flask import Flask
 from flask import render_template, request, redirect, flash, url_for
 import os
 
-def preprocess_input_custom(img1):
-    blur = GaussianBlur(img1,(5,5),0)
-    img = preprocess_input(blur)
-    return img
+
+
 
 def predict(image):
-    IMG_DIM = (112, 112)
-    TEST_SIZE = 1
-    Cache_dir = [image]
-    X_test = [img_to_array(load_img(file, target_size=IMG_DIM)) for file in Cache_dir]
-    vgg16 = load_model('Models/vgg16_finetuned.h5')
-    features_test = vgg16.predict(np.array(X_test))
-    features_test = np.resize(features_test,(TEST_SIZE,features_test.shape[1]*features_test.shape[2]*features_test.shape[3]))
-
-    mms = pk.load(open("Models/mms.pkl",'rb'))
-    x_test = mms.transform(features_test)
-
-    pca = pk.load(open("Models/pca.pkl",'rb'))
-    x_test_pca = pca.transform(x_test)
-
-    clf = load('Models/bagging_svc.joblib')
-
-    test_pred = clf.predict(x_test_pca)
-
-    return test_pred[0]
+    vgg_ct = load_model('major_project/vgg_ct.h5')
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
+    image = cv2.resize(image,(224,224))
+    image = np.array(image) / 255
+    image = np.expand_dims(image, axis=0)
+    vgg_pred = vgg_ct.predict(image)
+    probability = vgg_pred[0]
+    return probability
+   
 
 
 app = Flask(__name__, template_folder='templates')
