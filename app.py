@@ -42,7 +42,7 @@ def home_endpoint():
 def upload_image():
     if request.method == "POST":
         if request.files:
-            image = request.files["file"]
+            image = request.files["image"]
             filename = image.filename
             filename = filename.lower()
             jpg = filename.find('jpg')
