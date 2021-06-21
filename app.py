@@ -54,7 +54,7 @@ def upload_image():
             image.save(path2)
             answer = predict(path2)
             print("Image saved")
-            if(answer==0):
+            if(answer>0.5):
                 return render_template("0.html")
             else:
                 return render_template("1.html")
