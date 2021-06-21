@@ -6,28 +6,25 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from flask import Flask
 from flask import render_template, request, redirect, flash, url_for
+from werkzeug.utils import secure_filename
 import os
 
 
 
 
 
-def predict(image):
+def predict(path):
     vgg_ct = load_model('Models/vgg_ct.h5')
     
-    #image = cv2.imread(path)
-    #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
-    #image = cv2.resize(image,(224,224))
-    #i1=[]
-    #i1.append(image)
-    #i1 = np.array(i1)/255.0
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
+    image = cv2.resize(image,(224,224))
+    i1=[]
+    i1.append(image)
+    i1 = np.array(i1)/255.0
     #image = np.expand_dims(image, axis=0)
-    IMG_DIM = (224, 224)
-    TEST_SIZE = 1
-    Cache_dir = [image]
-    X_test = [img_to_array(load_img(file, target_size=IMG_DIM)) for file in Cache_dir]
-    vgg_pred = vgg_ct.predict(np.array(X_test))
-    #vgg_pred= vgg_ct.predict(i1)
+    
+    vgg_pred= vgg_ct.predict(i1)
     probability = vgg_pred[0]
     return probability
    
@@ -54,8 +51,10 @@ def upload_image():
             if(jpg==-1 and jpeg==-1 and png==-1):
                 flash('Image format should be "png", "jpg" or "jpeg"')
                 return redirect(url_for('home_endpoint'))
-            
-            answer = predict(image)
+            basepath=os.path.dirname(__file__)
+            fpath=os.path.join(basepath,'uploads',secure_filename(image.filename))
+            image.save(fpath)
+            answer = predict(fpath)
             print("Image saved")
             if(answer>0.5):
                 return render_template("0.html")
