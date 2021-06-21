@@ -8,15 +8,15 @@ from flask import Flask
 from flask import render_template, request, redirect, flash, url_for
 import os
 
+vgg_ct = load_model('Models/vgg_ct.h5')
 
 
 
-def predict(image):
-    vgg_ct = load_model('Models/vgg_ct.h5')
+def predict(image):  
     TEST_SIZE = 1
     Cache_dir = [image]
     X_test = [load_img(file) for file in Cache_dir]
-    image = cv2.imread(X_test)
+    #image = cv2.imread(X_test)
     image = cv2.cvtColor(X-test, cv2.COLOR_BGR2RGB) # arrange format as per keras
     image = cv2.resize(image,(224,224))
     image = np.array(image) / 255
