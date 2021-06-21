@@ -12,17 +12,22 @@ import os
 
 
 
-def predict(path):
+def predict(image):
     vgg_ct = load_model('Models/vgg_ct.h5')
     
-    image = cv2.imread(path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
-    image = cv2.resize(image,(224,224))
-    i1=[]
-    i1.append(image)
-    i1 = np.array(i1)/255.0
+    #image = cv2.imread(path)
+    #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
+    #image = cv2.resize(image,(224,224))
+    #i1=[]
+    #i1.append(image)
+    #i1 = np.array(i1)/255.0
     #image = np.expand_dims(image, axis=0)
-    vgg_pred = vgg_ct.predict(i1)
+    IMG_DIM = (224, 224)
+    TEST_SIZE = 1
+    Cache_dir = [image]
+    X_test = [img_to_array(load_img(file, target_size=IMG_DIM)) for file in Cache_dir]
+    vgg_pred = vgg_ct.predict(np.array(X_test))
+    #vgg_pred= vgg_ct.predict(i1)
     probability = vgg_pred[0]
     return probability
    
@@ -49,10 +54,8 @@ def upload_image():
             if(jpg==-1 and jpeg==-1 and png==-1):
                 flash('Image format should be "png", "jpg" or "jpeg"')
                 return redirect(url_for('home_endpoint'))
-            path1=os.path.dirname(__file__)
-            path2=os.path.join(path1,'uploads',secure_filename(image.filename))
-            image.save(path2)
-            answer = predict(path2)
+            
+            answer = predict(image)
             print("Image saved")
             if(answer>0.5):
                 return render_template("0.html")
