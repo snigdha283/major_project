@@ -25,8 +25,7 @@ def predict(path):
     #image = np.expand_dims(image, axis=0)
     
     vgg_pred= vgg_ct.predict(i1)
-    probability = vgg_pred[0]
-    return probability
+    return vgg_pred
    
 
 
@@ -55,11 +54,13 @@ def upload_image():
             fpath=os.path.join(basepath,'uploads',secure_filename(image.filename))
             image.save(fpath)
             answer = predict(fpath)
+            answer=np.argmax(answer,axis=1)
             print("Image saved")
-            if(answer>0.5):
-                return render_template("0.html")
-            else:
-                return render_template("1.html")
+            for res in answer:
+                if res==0 :
+                    return render_template("1.html")
+                else:
+                    return render_template("0.html")
     return render_template("upload.html")
 
 
@@ -68,5 +69,5 @@ if __name__ == '__main__':
     # load_model()
     app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
     app.debug = True
-    app.config["IMAGE_UPLOADS"] = "Test/class1"
+    #app.config["IMAGE_UPLOADS"] = "Test/class1"
     app.run(threaded=False,debug=False)
