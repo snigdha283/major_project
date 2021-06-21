@@ -57,10 +57,10 @@ def upload_image():
             answer=np.argmax(answer,axis=1)
             print("Image saved")
             for res in answer:
-                if res==0 :
-                    return render_template("1.html")
-                else:
+                if res>0.5 or res==1 :
                     return render_template("0.html")
+                else:
+                    return render_template("1.html")
     return render_template("upload.html")
 
 
