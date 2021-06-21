@@ -8,11 +8,12 @@ from flask import Flask
 from flask import render_template, request, redirect, flash, url_for
 import os
 
-vgg_ct = load_model('Models/vgg_ct.h5')
 
 
 
-def predict(image):  
+
+def predict(image):
+    vgg_ct = load_model('Models/vgg_ct.h5')
     TEST_SIZE = 1
     Cache_dir = [image]
     X_test = [load_img(file) for file in Cache_dir]
@@ -48,7 +49,7 @@ def upload_image():
             if(jpg==-1 and jpeg==-1 and png==-1):
                 flash('Image format should be "png", "jpg" or "jpeg"')
                 return redirect(url_for('home_endpoint'))
-            answer = predict(filename)
+            answer = predict(image)
             print("Image saved")
             if(answer==0):
                 return render_template("0.html")
