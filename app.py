@@ -54,13 +54,13 @@ def upload_image():
             fpath=os.path.join(basepath,'uploads',secure_filename(image.filename))
             image.save(fpath)
             answer = predict(fpath)
-            answer=np.argmax(answer,axis=1)
+            res= answer[0]
             print("Image saved")
-            for res in answer:
-                if res>0.5 or res==1 :
-                    return render_template("0.html")
-                else:
-                    return render_template("1.html")
+            
+            if res[0]>0.5 :
+                return render_template("0.html")
+            else:
+                return render_template("1.html")
     return render_template("upload.html")
 
 
