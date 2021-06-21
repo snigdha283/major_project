@@ -12,17 +12,17 @@ import os
 
 
 
-def predict(image):
+def predict(path):
     vgg_ct = load_model('Models/vgg_ct.h5')
-    TEST_SIZE = 1
-    Cache_dir = [image]
-    X_test = [load_img(file) for file in Cache_dir]
-    #image = cv2.imread(X_test)
-    image = cv2.cvtColor(X-test, cv2.COLOR_BGR2RGB) # arrange format as per keras
+    
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # arrange format as per keras
     image = cv2.resize(image,(224,224))
-    image = np.array(image) / 255
-    image = np.expand_dims(image, axis=0)
-    vgg_pred = vgg_ct.predict(image)
+    i1=[]
+    i1.append(image)
+    i1 = np.array(i1)/255.0
+    #image = np.expand_dims(image, axis=0)
+    vgg_pred = vgg_ct.predict(i1)
     probability = vgg_pred[0]
     return probability
    
@@ -40,7 +40,7 @@ def home_endpoint():
 def upload_image():
     if request.method == "POST":
         if request.files:
-            image = request.files["image"]
+            image = request.files["file"]
             filename = image.filename
             filename = filename.lower()
             jpg = filename.find('jpg')
@@ -49,7 +49,10 @@ def upload_image():
             if(jpg==-1 and jpeg==-1 and png==-1):
                 flash('Image format should be "png", "jpg" or "jpeg"')
                 return redirect(url_for('home_endpoint'))
-            answer = predict(image)
+            path1=os.path.dirname(__file__)
+            path2=os.path.join(path1,'uploads',secure_filename(image.filename))
+            image.save(path2)
+            answer = predict(path2)
             print("Image saved")
             if(answer==0):
                 return render_template("0.html")
